@@ -36,20 +36,4 @@ public interface IPiwikTracker {
 	URL getGoalTrackURL(final String goal);
 
 	URL getGoalTrackURL(final String goal, final String revenue);
-
-	/**
-	 * Probably was a typo. Use getDownloadTrackURL.
-	 * @param downloadurl
-	 * @return URL
-	 */
-	@Deprecated
-	URL getDownloadTackURL(final String downloadurl);
-
-	/**
-	 * Probably was a typo. Use getLinkTrackURL.
-	 * @param linkurl
-	 * @return URL
-	 */
-	@Deprecated
-	URL getLinkTackURL(final String linkurl);
 }

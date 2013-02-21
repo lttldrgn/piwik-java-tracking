@@ -926,18 +926,6 @@ public class SimplePiwikTracker implements IPiwikTracker {
 		return urlReferer;
 	}
 
-	@Deprecated
-	@Override
-	public URL getDownloadTackURL(final String downloadurl) {
-		return getDownloadTrackURL(downloadurl);
-	}
-
-	@Deprecated
-	@Override
-	public URL getLinkTackURL(final String linkurl) {
-		return getLinkTrackURL(linkurl);
-	}
-
 	public String getVisitorCustomData() {
 		return visitorCustomData;
 	}
