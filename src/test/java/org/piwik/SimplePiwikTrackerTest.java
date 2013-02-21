@@ -385,11 +385,11 @@ public class SimplePiwikTrackerTest {
 	}
 
 	/**
-	 * Test of getDownloadTackURL method, of class SimplePiwikTracker.
+	 * Test of getDownloadTrackURL method, of class SimplePiwikTracker.
 	 */
 	@Test
-	public void testGetDownloadTackURL() throws PiwikException, MalformedURLException {
-		System.out.println("getDownloadTackURL");
+	public void testGetDownloadTrackURL() throws PiwikException, MalformedURLException {
+		System.out.println("getDownloadTrackURL");
 		String downloadurl = "http://localhost/testdownload.pdf";
 		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
@@ -398,11 +398,11 @@ public class SimplePiwikTrackerTest {
 	}
 
 	/**
-	 * Test of getLinkTackURL method, of class SimplePiwikTracker.
+	 * Test of getLinkTrackURL method, of class SimplePiwikTracker.
 	 */
 	@Test
-	public void testGetLinkTackURL() throws PiwikException, MalformedURLException {
-		System.out.println("getLinkTackURL");
+	public void testGetLinkTrackURL() throws PiwikException, MalformedURLException {
+		System.out.println("getLinkTrackURL");
 		String linkurl = "http://localhost/testlink";
 		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
