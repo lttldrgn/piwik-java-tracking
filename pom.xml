@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.piwik</groupId>
-	<artifactId>PiwikTracking</artifactId>
-	<version>1.0.6</version>
+	<artifactId>piwik-java-tracking</artifactId>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 
-	<name>PiwikTracking</name>
+	<name>piwik-java-tracking</name>
 	<url>http://piwik.org</url>
 	<build>
 		<plugins>
