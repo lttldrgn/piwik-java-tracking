@@ -140,7 +140,7 @@ public class SimplePiwikTracker implements PiwikTracker {
 
 	private String ip;
 
-	private URL urlReferer;
+	private URL urlReferrer;
 
 	/**
 	 * 
@@ -187,7 +187,7 @@ public class SimplePiwikTracker implements PiwikTracker {
 	 */
 	public final void readRequestInfos(final HttpServletRequest request) throws PiwikException {
 		if (request != null) {
-			this.setUrlReferer(request.getHeader("Referer"));
+			this.setUrlReferrer(request.getHeader("Referer"));
 			this.setUserAgent(request.getHeader("User-Agent"));
 			this.setPageUrl(request.getRequestURL().toString());
 			this.setIp(request.getRemoteAddr());
@@ -357,7 +357,7 @@ public class SimplePiwikTracker implements PiwikTracker {
 	}
 
 	/**
-	 * Sets the referer url of the request. This will be used to determine where
+	 * Sets the referrer url of the request. This will be used to determine where
 	 * the request comes from.
 	 * 
 	 * The given string should be in the format of RFC2396. The string will be
@@ -365,29 +365,29 @@ public class SimplePiwikTracker implements PiwikTracker {
 	 * urls to the apiurl possible. If this is not wanted, create an own url object
 	 * and use the equivalent function to this.
 	 * 
-	 * @param urlReferer the referer url as a string object
+	 * @param urlReferrer The referrer URL as a string object
 	 * @throws PiwikException 
 	 */
-	public final void setUrlReferer(final String urlReferer) throws PiwikException {
+	public final void setUrlReferrer(final String urlReferrer) throws PiwikException {
 		try {
-			if (urlReferer == null) {
-				this.urlReferer = null;
+			if (urlReferrer == null) {
+				this.urlReferrer = null;
 			} else {
-				this.urlReferer = new URL(apiurl, urlReferer);
+				this.urlReferrer = new URL(apiurl, urlReferrer);
 			}
 		} catch (final MalformedURLException e) {
-			throw new PiwikException("Could not parse referer url: " + urlReferer, e);
+			throw new PiwikException("Could not parse referrer url: " + urlReferrer, e);
 		}
 	}
 
 	/**
-	 * Sets the referer url of the request. This will be used to determine where
+	 * Sets the referrer url of the request. This will be used to determine where
 	 * the request comes from.
 	 * 
-	 * @param urlReferer the referer url as a url object
+	 * @param urlReferrer the referrer URL as a URL object
 	 */
-	public final void setUrlReferer(final URL urlReferer) {
-		this.urlReferer = urlReferer;
+	public final void setUrlReferrer(final URL urlReferrer) {
+		this.urlReferrer = urlReferrer;
 	}
 
 	/**
@@ -536,11 +536,11 @@ public class SimplePiwikTracker implements PiwikTracker {
 		final String withRec = this.addParameter(withIdsite, "rec", 1); // what ever this is
 		final String withApiVersion = this.addParameter(withRec, "apiv", SimplePiwikTracker.VERSION);
 		final String withURL = this.addParameter(withApiVersion, "url", this.pageUrl);
-		final String withURLReferer = this.addParameter(withURL, "urlref", this.urlReferer);
-		final String withVisitorId = this.addParameter(withURLReferer, "_id", this.visitorId);
-		final String withReferer = this.addParameter(withVisitorId, "ref", this.urlReferer);
-		final String withRefererForcedTimestamp = this.addParameter(withReferer, "_refts", this.forcedDatetime);
-		final String withIp = this.addParameter(withRefererForcedTimestamp, "cip", this.ip);
+		final String withURLReferrer = this.addParameter(withURL, "urlref", this.urlReferrer);
+		final String withVisitorId = this.addParameter(withURLReferrer, "_id", this.visitorId);
+		final String withReferrer = this.addParameter(withVisitorId, "ref", this.urlReferrer);
+		final String withReferrerForcedTimestamp = this.addParameter(withReferrer, "_refts", this.forcedDatetime);
+		final String withIp = this.addParameter(withReferrerForcedTimestamp, "cip", this.ip);
 		final String withForcedTimestamp = this.addParameter(withIp, "cdt", forcedDatetime == null ? null
 				: new SimpleDateFormat("yyyyMMdd HH:mm:ssZ").format(forcedDatetime));
 		final String withAuthtoken = this.addParameter(withForcedTimestamp, "token_auth", this.tokenAuth);
@@ -923,8 +923,8 @@ public class SimplePiwikTracker implements PiwikTracker {
 	 * Getter.
 	 * @return URL Referrer
 	 */
-	public URL getUrlReferer() {
-		return urlReferer;
+	public URL getUrlReferrer() {
+		return urlReferrer;
 	}
 
 	public String getVisitorCustomData() {

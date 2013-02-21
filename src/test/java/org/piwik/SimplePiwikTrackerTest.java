@@ -191,25 +191,25 @@ public class SimplePiwikTrackerTest {
 	}
 
 	/**
-	 * Test of setUrlReferer method, of class SimplePiwikTracker.
+	 * Test of setUrlReferrer method, of class SimplePiwikTracker.
 	 */
 	@Test
-	public void testSetUrlReferer_String() throws PiwikException, MalformedURLException {
+	public void testSetUrlReferrer_String() throws PiwikException, MalformedURLException {
 		System.out.println("setUrlReferer");
-		String urlReferer = "";
+		String urlReferrer = "";
 		tracker.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
-		tracker.setUrlReferer(urlReferer);
+		tracker.setUrlReferrer(urlReferrer);
 	}
 
 	/**
-	 * Test of setUrlReferer method, of class SimplePiwikTracker.
+	 * Test of setUrlReferrer method, of class SimplePiwikTracker.
 	 */
 	@Test
-	public void testSetUrlReferer_URL() throws PiwikException, MalformedURLException {
+	public void testSetUrlReferrer_URL() throws PiwikException, MalformedURLException {
 		System.out.println("setUrlReferer");
-		URL urlReferer = null;
+		URL urlReferrer = null;
 		tracker.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
-		tracker.setUrlReferer(urlReferer);
+		tracker.setUrlReferrer(urlReferrer);
 	}
 
 	/**
