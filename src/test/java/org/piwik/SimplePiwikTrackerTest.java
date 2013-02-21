@@ -16,6 +16,7 @@ import java.util.Locale;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -25,6 +26,12 @@ import org.junit.Test;
 public class SimplePiwikTrackerTest {
 
 	private static final String TEST_VISITORID = "1f3e4069f7a5f882";
+	private SimplePiwikTracker instance;
+	
+	@Before
+	public void setUp() throws PiwikException {		
+		instance = new SimplePiwikTracker("http://localhost/piwik");
+	}
 
 	/**
 	 * Test of readRequestInfos method, of class SimplePiwikTracker.
@@ -33,7 +40,6 @@ public class SimplePiwikTrackerTest {
 	public void testReadRequestInfos() throws PiwikException, MalformedURLException {
 		System.out.println("readRequestInfos");
 		HttpServletRequest request = null;
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.readRequestInfos(request);
 	}
@@ -45,7 +51,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetAcceptLanguage_String() throws PiwikException, MalformedURLException {
 		System.out.println("setAcceptLanguage");
 		String language = "";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setAcceptLanguage(language);
 	}
@@ -57,7 +62,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetAcceptLanguage_Locale() throws PiwikException, MalformedURLException {
 		System.out.println("setAcceptLanguage");
 		Locale locale = Locale.getDefault();
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setAcceptLanguage(locale);
 	}
@@ -69,7 +73,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetApiurl_String() throws PiwikException, MalformedURLException {
 		System.out.println("setApiurl");
 		String apiurl = "http://localhost/piwik";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setApiurl(apiurl);
 	}
@@ -81,7 +84,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetApiurl_URL() throws PiwikException, MalformedURLException {
 		System.out.println("setApiurl");
 		URL apiurl = new URL("http://localhost/piwik");
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setApiurl(apiurl);
 	}
@@ -93,7 +95,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetCustomData() throws PiwikException, MalformedURLException {
 		System.out.println("setCustomData");
 		String customData = "";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setCustomData(customData);
 	}
@@ -105,7 +106,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetDebug_append_url() throws PiwikException, MalformedURLException {
 		System.out.println("setDebug_append_url");
 		String debug_append_url = "";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setDebugAppendUrl(debug_append_url);
 	}
@@ -117,7 +117,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetForcedDatetime() throws PiwikException, MalformedURLException {
 		System.out.println("setForcedDatetime");
 		Date forcedDatetime = null;
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setForcedDatetime(forcedDatetime);
 	}
@@ -129,7 +128,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetIp() throws PiwikException, MalformedURLException {
 		System.out.println("setIp");
 		String ip = "";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setIp(ip);
 	}
@@ -141,7 +139,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetIdSite() throws PiwikException, MalformedURLException {
 		System.out.println("setIdSite");
 		int idSite = 0;
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setIdSite(idSite);
 	}
@@ -153,7 +150,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetPageUrl() throws PiwikException, MalformedURLException {
 		System.out.println("setPageUrl");
 		String pageUrl = "";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setPageUrl(pageUrl);
 	}
@@ -166,7 +162,6 @@ public class SimplePiwikTrackerTest {
 		System.out.println("setResolution");
 		int width = 0;
 		int height = 0;
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setResolution(width, height);
 	}
@@ -178,7 +173,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetRequestCookie() throws PiwikException, MalformedURLException {
 		System.out.println("setRequestCookie");
 		Cookie requestCookie = null;
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		boolean expResult = false;
 		boolean result = instance.setRequestCookie(requestCookie);
@@ -192,7 +186,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetToken_auth() throws PiwikException, MalformedURLException {
 		System.out.println("setToken_auth");
 		String token_auth = "";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setTokenAuth(token_auth);
 	}
@@ -204,7 +197,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetUrlReferer_String() throws PiwikException, MalformedURLException {
 		System.out.println("setUrlReferer");
 		String urlReferer = "";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setUrlReferer(urlReferer);
 	}
@@ -216,7 +208,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetUrlReferer_URL() throws PiwikException, MalformedURLException {
 		System.out.println("setUrlReferer");
 		URL urlReferer = null;
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setUrlReferer(urlReferer);
 	}
@@ -228,7 +219,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetUserAgent() throws PiwikException, MalformedURLException {
 		System.out.println("setUserAgent");
 		String userAgent = "";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setUserAgent(userAgent);
 	}
@@ -240,7 +230,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetVisitorId() throws PiwikException, MalformedURLException {
 		System.out.println("setVisitorId");
 		String visitorId = "";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setVisitorId(visitorId);
 	}
@@ -253,7 +242,6 @@ public class SimplePiwikTrackerTest {
 		System.out.println("setCustomVariable");
 		String name = "testvar";
 		String value = "testvalue";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		int expResult = 1;
 		int result = instance.setPageCustomVariable(name, value);
@@ -266,7 +254,6 @@ public class SimplePiwikTrackerTest {
 	@Test
 	public void testClearCustomVariables() throws PiwikException, MalformedURLException {
 		System.out.println("clearCustomVariables");
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.clearCustomVariables();
 	}
@@ -279,7 +266,6 @@ public class SimplePiwikTrackerTest {
 		System.out.println("setPlugin");
 		BrowserPlugins plugin = BrowserPlugins.FLASH;
 		boolean enabled = true;
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setPlugin(plugin, enabled);
 	}
@@ -290,7 +276,6 @@ public class SimplePiwikTrackerTest {
 	@Test
 	public void testClearPluginList() throws PiwikException, MalformedURLException {
 		System.out.println("clearPluginList");
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.clearPluginList();
 	}
@@ -302,7 +287,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetLocalTime_String() throws PiwikException, MalformedURLException {
 		System.out.println("setLocalTime");
 		String time = "20:12:53";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setLocalTime(time);
 	}
@@ -314,7 +298,6 @@ public class SimplePiwikTrackerTest {
 	public void testSetLocalTime_Date() throws PiwikException, MalformedURLException {
 		System.out.println("setLocalTime");
 		Date time = null;
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		instance.setLocalTime(time);
 	}
@@ -325,7 +308,6 @@ public class SimplePiwikTrackerTest {
 	@Test
 	public void testGetGeneralQuery() throws PiwikException, MalformedURLException {
 		System.out.println("getGeneralQuery");
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		String result = instance.getGeneralQuery();
 		Assert.assertEquals(0, this.assertGeneralURLPart(result));
@@ -361,7 +343,6 @@ public class SimplePiwikTrackerTest {
 	public void testGetGoalTrackURL_String() throws PiwikException, MalformedURLException {
 		System.out.println("getGoalTrackURL");
 		String goal = "testgoal";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		String expResult = "&idgoal=testgoal";
 		this.assertFullUrl(expResult, "http://localhost/piwik/piwik.php?", instance.getGoalTrackURL(goal).toString());
@@ -375,7 +356,6 @@ public class SimplePiwikTrackerTest {
 		System.out.println("getGoalTrackURL");
 		String goal = "testgoal";
 		String revenue = "1";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		String expResult = "&idgoal=testgoal&revenue=1";
 		this.assertFullUrl(expResult, "http://localhost/piwik/piwik.php?", instance.getGoalTrackURL(goal, revenue).toString());
@@ -388,7 +368,6 @@ public class SimplePiwikTrackerTest {
 	public void testGetDownloadTrackURL() throws PiwikException, MalformedURLException {
 		System.out.println("getDownloadTrackURL");
 		String downloadurl = "http://localhost/testdownload.pdf";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		String expResult = "&download=http%3A%2F%2Flocalhost%2Ftestdownload.pdf";
 		this.assertFullUrl(expResult, "http://localhost/piwik/piwik.php?", instance.getDownloadTrackURL(downloadurl).toString());
@@ -401,7 +380,6 @@ public class SimplePiwikTrackerTest {
 	public void testGetLinkTrackURL() throws PiwikException, MalformedURLException {
 		System.out.println("getLinkTrackURL");
 		String linkurl = "http://localhost/testlink";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		String expResult = "&link=http%3A%2F%2Flocalhost%2Ftestlink";
 		this.assertFullUrl(expResult, "http://localhost/piwik/piwik.php?", instance.getLinkTrackURL(linkurl).toString());
@@ -414,7 +392,6 @@ public class SimplePiwikTrackerTest {
 	public void testGetPageTrackURL() throws PiwikException, MalformedURLException {
 		System.out.println("getPageTrackURL");
 		String pagename = "testpage";
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		String expResult = "&action_name=testpage";
 		this.assertFullUrl(expResult, "http://localhost/piwik/piwik.php?", instance.getPageTrackURL(pagename).toString());
@@ -427,7 +404,6 @@ public class SimplePiwikTrackerTest {
 	public void testSendRequest() throws PiwikException, MalformedURLException {
 		System.out.println("sendRequest");
 		URL destination = null;
-		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);
 		ResponseData expResult = null;
 		ResponseData result = instance.sendRequest(destination);
