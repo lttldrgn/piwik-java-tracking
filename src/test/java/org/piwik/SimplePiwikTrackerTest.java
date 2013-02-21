@@ -21,7 +21,6 @@ import org.junit.Test;
 /**
  *
  * @author Martin Fochler
- * @version 1.0.0
  */
 public class SimplePiwikTrackerTest {
 

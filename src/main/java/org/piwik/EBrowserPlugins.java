@@ -12,12 +12,11 @@ package org.piwik;
 /**
  *
  * @author Martin Fochler
- * @version 1.0.1
  */
 public enum EBrowserPlugins {
 
 	/**
-	 *  Browserplugins.
+	 *  Browser plugins.
 	 */
 	FLASH("fla"), JAVA("java"), DIRECTOR("dir"), QUICKTIME("qt"),
 	REALPLAYER("realp"), PDF("pdf"), WINDOWSMEDIA("wma"), GEARS("gears"),

@@ -14,9 +14,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.Cookie;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

@@ -14,7 +14,6 @@ import java.net.URL;
 /**
  *
  * @author Martin Fochler, Klaus Pfeiffer
- * @version 1.0.1
  */
 public interface IPiwikTracker {
 

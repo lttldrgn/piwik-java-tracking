@@ -44,21 +44,9 @@ import org.json.JSONArray;
  * For more information, see http://piwik.org/docs/tracking-api/
  * 
  * released under BSD License http://www.opensource.org/licenses/bsd-license.php
- * @version PiwikTracker.java 2011-03-11
- * @link http://piwik.org/docs/tracking-api/
- *
  * 
- * Changes:
- *  - coding style fixes
- *  - converted from spaces to tabs
- *  - cookiesupport removed cause was not used
- *  - more checkstyle
- *  - the url will not have empty parameters
- *  - Java 1.5 needed
- *  - logging with commons-logging
- *
+ * @link http://piwik.org/docs/tracking-api/
  * @author Martin Fochler, Klaus Pfeiffer, Bernhard Friedreich
- * @version 1.0.5
  */
 public class SimplePiwikTracker implements IPiwikTracker {
 
