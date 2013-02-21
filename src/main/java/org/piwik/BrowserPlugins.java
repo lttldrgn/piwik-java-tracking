@@ -13,7 +13,7 @@ package org.piwik;
  *
  * @author Martin Fochler
  */
-public enum EBrowserPlugins {
+public enum BrowserPlugins {
 
 	/**
 	 *  Browser plugins.
@@ -31,7 +31,7 @@ public enum EBrowserPlugins {
 	 * Constructor that sets the short URL.
 	 * @param urlshort 
 	 */
-	EBrowserPlugins(final String urlshort) {
+	BrowserPlugins(final String urlshort) {
 		this.urlshort = urlshort;
 	}
 

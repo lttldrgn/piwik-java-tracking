@@ -277,7 +277,7 @@ public class SimplePiwikTrackerTest {
 	@Test
 	public void testSetPlugin() throws PiwikException, MalformedURLException {
 		System.out.println("setPlugin");
-		EBrowserPlugins plugin = EBrowserPlugins.FLASH;
+		BrowserPlugins plugin = BrowserPlugins.FLASH;
 		boolean enabled = true;
 		SimplePiwikTracker instance = new SimplePiwikTracker("http://localhost/piwik");
 		instance.setVisitorId(SimplePiwikTrackerTest.TEST_VISITORID);

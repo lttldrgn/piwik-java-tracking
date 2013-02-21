@@ -48,7 +48,7 @@ import org.json.JSONArray;
  * @link http://piwik.org/docs/tracking-api/
  * @author Martin Fochler, Klaus Pfeiffer, Bernhard Friedreich
  */
-public class SimplePiwikTracker implements IPiwikTracker {
+public class SimplePiwikTracker implements PiwikTracker {
 
 	/**
 	 * Random object used for the request URl.
@@ -94,7 +94,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 
 	private Date localTime;
 
-	private Map<EBrowserPlugins, Boolean> plugins = new EnumMap<EBrowserPlugins, Boolean>(EBrowserPlugins.class);
+	private Map<BrowserPlugins, Boolean> plugins = new EnumMap<BrowserPlugins, Boolean>(BrowserPlugins.class);
 
 	/**
 	 * Custom data per pageview.
@@ -484,7 +484,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 	 * @param plugin the plugin which was detected
 	 * @param enabled <code>true</code> is the plugin is enabled otherwise <code>false</code>
 	 */
-	public final void setPlugin(final EBrowserPlugins plugin, final boolean enabled) {
+	public final void setPlugin(final BrowserPlugins plugin, final boolean enabled) {
 		this.plugins.put(plugin, enabled);
 	}
 
@@ -545,7 +545,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 				: new SimpleDateFormat("yyyyMMdd HH:mm:ssZ").format(forcedDatetime));
 		final String withAuthtoken = this.addParameter(withForcedTimestamp, "token_auth", this.tokenAuth);
 		String withPlugins = withAuthtoken;
-		for (final Map.Entry<EBrowserPlugins, Boolean> entry : this.plugins.entrySet()) {
+		for (final Map.Entry<BrowserPlugins, Boolean> entry : this.plugins.entrySet()) {
 			withPlugins = this.addParameter(withPlugins, entry.getKey().toString(), entry.getValue());
 		}
 		final String withLocalTime;
@@ -757,7 +757,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 		try {
 			final byte[] b = MessageDigest.getInstance("MD5").digest(input.getBytes());
 			final java.math.BigInteger bi = new java.math.BigInteger(1, b);
-			retVal = bi.toString(16);
+			retVal = bi.toString(16);			
 			while (retVal.length() < 32) {
 				retVal = "0" + retVal;
 			}

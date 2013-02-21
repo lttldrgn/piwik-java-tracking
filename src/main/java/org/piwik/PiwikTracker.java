@@ -15,7 +15,7 @@ import java.net.URL;
  *
  * @author Martin Fochler, Klaus Pfeiffer
  */
-public interface IPiwikTracker {
+public interface PiwikTracker {
 
 	/**
 	 * Builds the URL for the page tracking request.
