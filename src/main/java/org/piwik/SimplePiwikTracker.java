@@ -30,11 +30,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 
 /**
@@ -58,7 +58,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 	/**
 	 * Our logger.
 	 */
-	private static final Log LOG = LogFactory.getLog(SimplePiwikTracker.class);
+        private static final Logger LOGGER = Logger.getLogger(SimplePiwikTracker.class.getName());
 
 	public static final int VERSION = 1;
 
@@ -195,9 +195,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 			if (request.getCookies() != null) {
 				for (final Cookie cookie : request.getCookies()) {
 					if (cookie.getName().equals("piwik_visitor")) {
-						if (SimplePiwikTracker.LOG.isDebugEnabled()) {
-							SimplePiwikTracker.LOG.debug("found tracking cookie");
-						}
+						LOGGER.log(Level.FINE, "found tracking cookie");						
 						this.setRequestCookie(cookie);
 					}
 				}
@@ -264,7 +262,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 				this.apiurl = new URL(apiurl, apiurl.getPath() + "/piwik.php");
 			} catch (final MalformedURLException e) {
 				// should not be thrown
-				LOG.warn("MalformedURLException", e);
+				LOGGER.log(Level.WARNING, "MalformedURLException", e);
 			}
 		}
 	}
@@ -727,7 +725,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 			output = this.urlencode(value);
 		} else {
 			output = rootQuery;
-			LOG.error("value == null!");
+			LOGGER.log(Level.WARNING, "value == null!");
 		}
 		return output;
 	}
@@ -742,7 +740,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 		try {
 			output = URLEncoder.encode(input, "UTF-8");
 		} catch (final UnsupportedEncodingException e) {
-			SimplePiwikTracker.LOG.warn("Error while encoding url", e);
+			LOGGER.log(Level.WARNING, "Error while encoding url", e);
 			output = input;
 		}
 		return output;
@@ -764,7 +762,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 				retVal = "0" + retVal;
 			}
 		} catch (final NoSuchAlgorithmException e) {
-			SimplePiwikTracker.LOG.error("Error while creating a md5 hash", e);
+			LOGGER.log(Level.SEVERE, "Error while creating a md5 hash", e);
 		}
 		return retVal;
 	}
@@ -780,7 +778,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 			final String resultQuery = this.addParameter(globalQuery, "idgoal", goal);
 			output = this.makeURL(resultQuery);
 		} catch (final MalformedURLException e) {
-			SimplePiwikTracker.LOG.error("Error while building track url", e);
+			LOGGER.log(Level.SEVERE, "Error while building track url", e);
 		}
 		return output;
 	}
@@ -798,7 +796,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 			final String resultQuery = this.addParameter(qoalQuery, "revenue", revenue);
 			output = this.makeURL(resultQuery);
 		} catch (final MalformedURLException e) {
-			SimplePiwikTracker.LOG.error("Error while building track url", e);
+			LOGGER.log(Level.SEVERE, "Error while building track url", e);
 		}
 		return output;
 	}
@@ -811,7 +809,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 			final String resultQuery = this.addParameter(globalQuery, "download", downloadurl);
 			output = this.makeURL(resultQuery);
 		} catch (final MalformedURLException e) {
-			SimplePiwikTracker.LOG.error("Error while building track url", e);
+			LOGGER.log(Level.SEVERE, "Error while building track url", e);
 		}
 		return output;
 	}
@@ -824,7 +822,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 			final String resultQuery = this.addParameter(globalQuery, "link", linkurl);
 			output = this.makeURL(resultQuery);
 		} catch (final MalformedURLException e) {
-			SimplePiwikTracker.LOG.error("Error while building track url", e);
+			LOGGER.log(Level.SEVERE, "Error while building track url", e);
 		}
 		return output;
 	}
@@ -837,7 +835,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 			final String resultQuery = this.addParameter(globalQuery, "action_name", pagename);
 			output = this.makeURL(resultQuery);
 		} catch (final MalformedURLException e) {
-			SimplePiwikTracker.LOG.error("Error while building track url", e);
+			LOGGER.log(Level.SEVERE, "Error while building track url", e);
 		}
 		return output;
 	}
@@ -852,9 +850,8 @@ public class SimplePiwikTracker implements IPiwikTracker {
 		ResponseData responseData = null;
 		if (destination != null) {
 			try {
-				if (SimplePiwikTracker.LOG.isDebugEnabled()) {
-					SimplePiwikTracker.LOG.debug("try to open piwik request url: " + destination);
-				}
+				LOGGER.log(Level.FINE, "try to open piwik request url: " + destination);
+                                
 				HttpURLConnection connection = (HttpURLConnection) destination.openConnection();
 				connection.setInstanceFollowRedirects(false);
 				connection.setRequestMethod("GET");
@@ -875,7 +872,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 				}
 
 				if (connection.getResponseCode() != HttpServletResponse.SC_OK) {
-					SimplePiwikTracker.LOG.error("error:" + connection.getResponseCode() + " "
+					LOGGER.log(Level.WARNING, "Warning:" + connection.getResponseCode() + " "
 							+ connection.getResponseMessage());
 					throw new PiwikException("error:" + connection.getResponseCode() + " "
 							+ connection.getResponseMessage());
