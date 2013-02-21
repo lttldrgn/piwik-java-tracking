@@ -14,9 +14,9 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class ResponseData {
 	/**
 	 * For debug output.
 	 */
-	private static final Log LOGGER = LogFactory.getLog(ResponseData.class);
+        private static final Logger LOGGER = Logger.getLogger(ResponseData.class.getName());
 
 	/**
 	 * Initialize the local header data with the header fields from the connection.
@@ -55,12 +55,12 @@ public class ResponseData {
 			}
 
 			if (key == null && cookieInfo.toString().equals("")) {
-				LOGGER.debug("No more headers, not proceeding");
+				LOGGER.log(Level.FINE, "No more headers, not proceeding");
 				return null;
 			}
 
 			if (key == null) {
-				LOGGER.debug("The header value contains the server's HTTP version, not proceeding");
+				LOGGER.log(Level.FINE, "The header value contains the server's HTTP version, not proceeding");
 			} else if (key.equals("Set-Cookie")) {
 				List<HttpCookie> httpCookies = HttpCookie.parse(cookieInfo.toString());
 				for (HttpCookie h : httpCookies) {
@@ -76,8 +76,7 @@ public class ResponseData {
 					cookies.add(c);
 				}
 			} else {
-				LOGGER.debug("The provided key (" + key + ") with value (" + cookieInfo
-						+ ") were not processed because the key is unknown");
+				LOGGER.log(Level.FINE, "The provided key ({0}) with value ({1}) were not processed because the key is unknown", new Object[]{key, cookieInfo});
 			}
 		}
 		return cookies;
