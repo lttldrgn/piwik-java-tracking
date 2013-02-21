@@ -525,9 +525,9 @@ public class SimplePiwikTracker implements IPiwikTracker {
 	/**
 	 * Returns the uery part for the url with all parameters from all given 
 	 * informations set to this tracker.
-	 * This function is called in the defined url for the tacking purpose.
+	 * This function is called in the defined URL for the tacking purpose.
 	 * 
-	 * @return the query part for the url as string object
+	 * @return the query part for the URL as string object
 	 */
 	public final String getGeneralQuery() {
 		final URL rootURL = this.apiurl;
@@ -736,7 +736,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 	 * @return String 
 	 */
 	private String urlencode(final String input) {
-		String output = "";
+		String output;
 		try {
 			output = URLEncoder.encode(input, "UTF-8");
 		} catch (final UnsupportedEncodingException e) {
@@ -771,6 +771,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 	 * @param goal 
 	 * @return URL 
 	 */
+	@Override
 	public final URL getGoalTrackURL(final String goal) {
 		URL output = null;
 		try {
@@ -788,6 +789,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 	 * @param revenue 
 	 * @return URL 
 	 */
+	@Override
 	public final URL getGoalTrackURL(final String goal, final String revenue) {
 		URL output = null;
 		try {
@@ -850,7 +852,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 		ResponseData responseData = null;
 		if (destination != null) {
 			try {
-				LOGGER.log(Level.FINE, "try to open piwik request url: " + destination);
+				LOGGER.log(Level.FINE, "try to open piwik request url: {0}", destination);
                                 
 				HttpURLConnection connection = (HttpURLConnection) destination.openConnection();
 				connection.setInstanceFollowRedirects(false);
@@ -872,8 +874,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 				}
 
 				if (connection.getResponseCode() != HttpServletResponse.SC_OK) {
-					LOGGER.log(Level.WARNING, "Warning:" + connection.getResponseCode() + " "
-							+ connection.getResponseMessage());
+					LOGGER.log(Level.WARNING, "Warning:{0} {1}", new Object[]{connection.getResponseCode(), connection.getResponseMessage()});
 					throw new PiwikException("error:" + connection.getResponseCode() + " "
 							+ connection.getResponseMessage());
 				}
@@ -920,7 +921,7 @@ public class SimplePiwikTracker implements IPiwikTracker {
 
 	/**
 	 * Getter.
-	 * @return URL Referer
+	 * @return URL Referrer
 	 */
 	public URL getUrlReferer() {
 		return urlReferer;
