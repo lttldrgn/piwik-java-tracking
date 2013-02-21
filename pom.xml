@@ -20,7 +20,7 @@
     </licenses>
     <scm>
 	<url>https://github.com/piwik/piwik-java-tracking</url>
-	<connection>scm:git:https://github.com/piwik/piwik-java-tracking.git</connection>
+	<connection>scm:git:git@github.com:piwik/piwik-java-tracking.git</connection>
     </scm>
     <developers>
 	<developer>
@@ -83,4 +83,10 @@
 	    <version>20090211</version>
 	</dependency>
     </dependencies>
+    
+    <parent>
+	<groupId>org.sonatype.oss</groupId>
+	<artifactId>oss-parent</artifactId>
+	<version>7</version>
+    </parent>
 </project>
