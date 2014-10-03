@@ -910,8 +910,12 @@ public class SimplePiwikTracker implements PiwikTracker {
                 connection.setInstanceFollowRedirects(false);
                 connection.setRequestMethod("GET");
                 connection.setConnectTimeout(600);
-                connection.setRequestProperty("User-Agent", userAgent);
-                connection.setRequestProperty("Accept-Language", language);
+                if (userAgent != null) {
+                    connection.setRequestProperty("User-Agent", userAgent);
+                }
+                if (language != null) {
+                    connection.setRequestProperty("Accept-Language", language);
+                }
                 if (requestCookie != null) {
                     connection.setRequestProperty("Cookie", requestCookie.getName() + "=" + requestCookie.getValue());
                 }
