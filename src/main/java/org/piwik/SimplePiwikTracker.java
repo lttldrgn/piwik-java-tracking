@@ -10,6 +10,7 @@
 package org.piwik;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -38,6 +39,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Piwik - Open source web analytics
@@ -156,6 +159,9 @@ public class SimplePiwikTracker implements PiwikTracker {
     /** The event value. Must be a float or integer value (numeric), not a string. */
     private Float eventValue;
 
+    /** List of bulk requests queued up */
+    private final ArrayList<String> bulkRequests = new ArrayList<String>();
+    
     /**
      * 
      * @param apiUrl
@@ -944,6 +950,151 @@ public class SimplePiwikTracker implements PiwikTracker {
         return responseData;
     }
 
+    /**
+     * Add the query portion of the provided URL to the list of bulk requests.
+     * This method can be used with the result of calling any of the getxxxxURL methods.
+     * <pre>
+     * {@code
+     *      tracker.queueBulkRequest(tracker.getPageTrackURL("http://example.org/somepage"));
+     * }
+     * </pre>
+     * @param url 
+     */
+    public void queueBulkRequest(URL url) {
+        String query = url.getQuery();
+        if (query != null) {
+            query = "?" + query; // format requires a starting ?
+            synchronized(bulkRequests) {
+                bulkRequests.add(query);
+            }
+        } else {
+            LOGGER.log(Level.WARNING, "No query string found for URL: {0}", url);
+        }
+    }
+    
+    /**
+     * Add the request query String to the bulk request list. For example:
+     * <pre>
+     * "?idsite=1&url=http://example.org&action_name=Test bulk log Pageview&rec=1"
+     * </pre>
+     * @param queryString
+     */
+    public void queueBulkRequest(String queryString) {
+        String query = queryString.startsWith("?") ? queryString : "?" + queryString;
+        synchronized(bulkRequests) {
+            bulkRequests.add(query);
+        }
+    }
+    
+    /**
+     * Get a copy of the bulk requests
+     * @return Copy of the queued up requests
+     */
+    public List<String> getBulkTrackingRequests() {
+        ArrayList<String> copyRequests = new ArrayList<String>(bulkRequests.size());
+        synchronized(bulkRequests) {
+            copyRequests.addAll(bulkRequests);
+        }
+        return copyRequests;
+    }
+    
+    /**
+     * Clear the queued requests
+     */
+    public void clearBulkRequests() {
+        synchronized(bulkRequests) {
+            bulkRequests.clear();
+        }
+    }
+    
+    /**
+     * Send the queued up bulk requests to the Tracking API URL, clearing the
+     * list in the process.  If a network error occurs, requests are queued up
+     * for resend.
+     * @return Server response
+     * @throws PiwikException 
+     */
+    public ResponseData sendBulkRequests() throws PiwikException {
+        ResponseData responseData = null;
+        ArrayList<String> bulkData = new ArrayList<String>();
+        synchronized (bulkRequests) {
+            bulkData.addAll(bulkRequests);
+            bulkRequests.clear();
+        }
+        
+        if (apiurl != null && !bulkData.isEmpty()) {
+            try {
+                String postData = SimplePiwikTracker.buildJsonRequest(bulkData, tokenAuth);
+                byte postDataBytes[] = postData.getBytes("UTF-8");
+                LOGGER.log(Level.FINE, "attempting to send piwik bulk tracking request to url: {0}", apiurl);
+
+                HttpURLConnection connection = (HttpURLConnection) apiurl.openConnection();
+                connection.setInstanceFollowRedirects(false);
+                connection.setRequestMethod("POST");
+                connection.setConnectTimeout(600);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Content-Length", Integer.toString(postDataBytes.length));
+                if (userAgent != null) {
+                    connection.setRequestProperty("User-Agent", userAgent);
+                }
+                if (language != null) {
+                    connection.setRequestProperty("Accept-Language", language);
+                }
+                if (requestCookie != null) {
+                    connection.setRequestProperty("Cookie", requestCookie.getName() + "=" + requestCookie.getValue());
+                }
+
+                connection.setDoOutput(true);
+                OutputStream output = connection.getOutputStream();
+                output.write(postDataBytes);
+                responseData = new ResponseData(connection);
+                List<Cookie> cookies = responseData.getCookies();
+                if (cookies.size() > 0) {
+                    if (cookies.get(cookies.size() - 1).getName().lastIndexOf("XDEBUG") == -1
+                            && cookies.get(cookies.size() - 1).getValue().lastIndexOf("XDEBUG") == -1) {
+                        requestCookie = cookies.get(cookies.size() - 1);
+                    }
+                }
+
+                if (connection.getResponseCode() != HttpServletResponse.SC_OK) {
+                    LOGGER.log(Level.WARNING, "Bulk tracking request failed, requeing objects");
+                    synchronized (bulkRequests) {
+                        bulkRequests.addAll(bulkData);
+                    }
+                    LOGGER.log(Level.WARNING, "Warning:{0} {1}", new Object[] { connection.getResponseCode(),
+                            connection.getResponseMessage() });
+                    throw new PiwikException("error:" + connection.getResponseCode() + " "
+                            + connection.getResponseMessage());
+                }
+
+                connection.disconnect();
+            } catch (final IOException e) {
+                throw new PiwikException("Error while sending bulk request to piwik", e);
+            } catch (JSONException ex) {
+                LOGGER.log(Level.SEVERE, "Error producing JSON data for bulk request", ex);
+            }
+        }
+        return responseData;
+    }
+    
+    /**
+     * Build a bulk tracking JSON request
+     * @param bulkRequests List of requests
+     * @param tokenAuth Optional authorization token
+     * @return JSON string
+     */
+    private static String buildJsonRequest(List<String> bulkRequests, String tokenAuth) throws JSONException {
+        JSONObject root = new JSONObject();
+        JSONArray requestArray = new JSONArray(bulkRequests);
+        root.put("requests", requestArray);
+
+        if (tokenAuth != null) {
+            root.put("token_auth", tokenAuth);
+        }
+        
+        return root.toString();
+    }
+    
     /**
      * Getter.
      * 

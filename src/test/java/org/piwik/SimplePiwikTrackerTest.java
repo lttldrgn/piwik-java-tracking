@@ -378,4 +378,28 @@ public class SimplePiwikTrackerTest {
 		ResponseData result = tracker.sendRequest(destination);
 		Assert.assertEquals(expResult, result);
 	}
+        
+        @Test
+        public void testClearBulkRequests() {
+            tracker.queueBulkRequest("?idsite=1&url=http://example.org&rec=1");
+            Assert.assertEquals(1, tracker.getBulkTrackingRequests().size());
+            tracker.clearBulkRequests();
+            Assert.assertEquals(0, tracker.getBulkTrackingRequests().size());
+        }
+        
+        @Test
+        public void testQueueBulkRequest() throws MalformedURLException {
+            tracker.queueBulkRequest("?idsite=1&url=http://example.org&rec=1");
+            Assert.assertEquals(1, tracker.getBulkTrackingRequests().size());
+
+            URL url = new URL("http://example.com");
+            tracker.queueBulkRequest(url); // should not add anything
+            Assert.assertEquals(1, tracker.getBulkTrackingRequests().size());
+            url = new URL("http://example.com?idsite=1&url=http://example.org&rec=1");
+            tracker.queueBulkRequest(url);
+            Assert.assertEquals(2, tracker.getBulkTrackingRequests().size());
+
+            tracker.clearBulkRequests();
+            Assert.assertEquals(0, tracker.getBulkTrackingRequests().size());
+        }
 }
